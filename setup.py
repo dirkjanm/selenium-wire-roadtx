@@ -46,6 +46,8 @@ setup(
         'selenium>=4.0.0',
         'wsproto>=0.14',
         'zstandard>=0.14.1',
+        'typing-extensions>=4.8.0',
+        'ruamel.yaml'
     ],
     extras_require={
         ':sys_platform == "win32"': [
@@ -74,12 +76,12 @@ setup(
         ],
     },
     keywords='selenium-wire',
-    name='selenium-wire',
+    name='selenium-wire-roadtx',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     setup_requires=[],
     test_suite='tests.seleniumwire',
     tests_require=['pytest'],
-    url='https://github.com/wkeeling/selenium-wire',
-    version='5.1.0',
+    url='https://github.com/dirkjanm/selenium-wire-roadtx/',
+    version='5.2.0',
     zip_safe=False,
 )
