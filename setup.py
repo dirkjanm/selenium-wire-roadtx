@@ -16,7 +16,6 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Operating System :: MacOS',
         'Operating System :: POSIX',
@@ -82,6 +81,6 @@ setup(
     test_suite='tests.seleniumwire',
     tests_require=['pytest'],
     url='https://github.com/dirkjanm/selenium-wire-roadtx/',
-    version='5.2.0',
+    version='5.2.1',
     zip_safe=False,
 )
