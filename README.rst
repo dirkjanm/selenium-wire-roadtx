@@ -1,4 +1,4 @@
-**Selenium Wire is no longer being maintained. Thank you for your support and all your contributions.**
+**This is a fork of the original Selenium Wire project which is unmaintained. I add just enough fixes here to keep it working with ROADtools, do not expect any feature improvements or other bugfixes for functionality unrelated to what I use in roadtx**
 
 Selenium Wire
 =============
