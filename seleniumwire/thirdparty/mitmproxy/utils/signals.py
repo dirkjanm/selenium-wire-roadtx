@@ -18,7 +18,10 @@ from collections.abc import Callable
 from typing import Any
 from typing import cast
 from typing import Generic
-from typing import ParamSpec
+try:
+    from typing import ParamSpec
+except ImportError:
+    from typing_extensions import ParamSpec
 from typing import TypeVar
 
 P = ParamSpec("P")
