@@ -81,6 +81,6 @@ setup(
     test_suite='tests.seleniumwire',
     tests_require=['pytest'],
     url='https://github.com/dirkjanm/selenium-wire-roadtx/',
-    version='5.2.2',
+    version='5.2.3',
     zip_safe=False,
 )
