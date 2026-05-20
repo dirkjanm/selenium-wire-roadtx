@@ -4,6 +4,7 @@ from typing import Union
 from seleniumwire.thirdparty.mitmproxy import exceptions
 from seleniumwire.thirdparty.mitmproxy.net import tls as net_tls
 from seleniumwire.thirdparty.mitmproxy.server.protocol import base
+from cryptography import x509
 
 # taken from https://testssl.sh/openssl-rfc.mapping.html
 CIPHER_ID_NAME_MAP = {
@@ -369,7 +370,10 @@ class TlsLayer(base.Layer):
 
     def _establish_tls_with_client(self):
         self.log("Establish TLS with client", "debug")
-        cert, key, chain_file = self._find_cert()
+        certstore = self._find_cert()
+        cert = certstore.cert
+        key = certstore.privatekey
+        chain_file = certstore.chain_file
 
         if self.config.options.add_upstream_certs_to_client_chain:
             extra_certs = self.server_conn.server_certs
@@ -479,7 +483,7 @@ class TlsLayer(base.Layer):
         # However, we may just want to establish TLS so that we can send an error message to the client,
         # in which case the address can be None.
         if self.server_conn.address:
-            host = self.server_conn.address[0].encode("idna")
+            host = self.server_conn.address[0]
 
         # Should we incorporate information from the server certificate?
         use_upstream_cert = (
@@ -491,18 +495,18 @@ class TlsLayer(base.Layer):
             upstream_cert = self.server_conn.cert
             sans.update(upstream_cert.altnames)
             if upstream_cert.cn:
-                sans.add(host)
-                host = upstream_cert.cn.decode("utf8").encode("idna")
+                sans.add(x509.DNSName(host))
+                host = upstream_cert.cn
             if upstream_cert.organization:
                 organization = upstream_cert.organization
         # Also add SNI values.
         if self._client_hello.sni:
-            sans.add(self._client_hello.sni)
+            sans.add(x509.DNSName(self._client_hello.sni.decode('utf-8')))
         if self._custom_server_sni:
-            sans.add(self._custom_server_sni.encode("idna"))
+            sans.add(x509.DNSName(self._custom_server_sni))
 
         # RFC 2818: If a subjectAltName extension of type dNSName is present, that MUST be used as the identity.
         # In other words, the Common Name is irrelevant then.
         if host:
-            sans.add(host)
+            sans.add(x509.DNSName(host))
         return self.config.certstore.get_cert(host, list(sans), organization)

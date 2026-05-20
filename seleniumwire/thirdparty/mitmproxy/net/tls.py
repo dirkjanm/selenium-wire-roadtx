@@ -353,13 +353,13 @@ def create_server_context(
 
     context.use_privatekey(key)
     if isinstance(cert, certs.Cert):
-        context.use_certificate(cert.x509)
+        context.use_certificate(cert._cert)
     else:
         context.use_certificate_chain_file(cert)
 
     if extra_chain_certs:
         for i in extra_chain_certs:
-            context.add_extra_chain_cert(i.x509)
+            context.add_extra_chain_cert(i._cert)
 
     if handle_sni:
         # SNI callback happens during do_handshake()

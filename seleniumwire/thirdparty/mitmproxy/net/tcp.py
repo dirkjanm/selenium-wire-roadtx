@@ -392,11 +392,11 @@ class TCPClient(_Connection):
         self.connection.set_connect_state()
         do_ssl_handshake(sock, self.connection)
 
-        self.cert = certs.Cert(self.connection.get_peer_certificate())
+        self.cert = certs.Cert.from_pyopenssl(self.connection.get_peer_certificate())
 
         # Keep all server certificates in a list
         for i in self.connection.get_peer_cert_chain():
-            self.server_certs.append(certs.Cert(i))
+            self.server_certs.append(certs.Cert.from_pyopenssl(i))
 
         self.tls_established = True
         self.rfile.set_descriptor(self.connection)
@@ -537,7 +537,7 @@ class BaseHandler(_Connection):
         self.tls_established = True
         cert = self.connection.get_peer_certificate()
         if cert:
-            self.clientcert = certs.Cert(cert)
+            self.clientcert = certs.Cert.from_pyopenssl(cert)
         self.rfile.set_descriptor(self.connection)
         self.wfile.set_descriptor(self.connection)
 

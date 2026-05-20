@@ -163,7 +163,7 @@ class InterceptRequestHandler:
                 subject=cert.subject,
                 serial=cert.serial,
                 key=cert.keyinfo,
-                signature_algorithm=cert.x509.get_signature_algorithm(),
+                signature_algorithm=cert._cert.signature_hash_algorithm,
                 expired=cert.has_expired,
                 issuer=cert.issuer,
                 notbefore=cert.notbefore,
